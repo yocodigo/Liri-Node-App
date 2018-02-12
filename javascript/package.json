@@ -5,6 +5,7 @@
   "main": "liri_new.js",
   "dependencies": {
     "node-spotify-api": "^1.0.7",
+    "request": "^2.83.0",
     "twitter": "^1.7.1"
   },
   "devDependencies": {},
