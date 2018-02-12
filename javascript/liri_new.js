@@ -27,8 +27,8 @@ var movieArray = [];
 var nodeArray = process.argv;
 var pullRequest = process.argv[2];
 
-
 switch (pullRequest) {
+	
 	case "movie-this": 
 		getMovie();
 		break;
@@ -100,5 +100,6 @@ function getSpotify() {
 		if (err) {
 		return console.log('Error occurred: ' + err);
 		}
+		console.log(data);
 	});
 }
