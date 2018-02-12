@@ -6,12 +6,18 @@ var fs = require("fs");
 
 //TWITTER GLOBAL VARIABLES
 var twitter = require('twitter');
-var creds = require("./keys.js");
-var client = new twitter(creds);
+var accessKeys = require("./keys.js");
+var twitterClient = new twitter(accessKeys.twitterKeys);
 
 //SPOTIFY GLOBAL VARIABLES
 var http = require("http");
 var spotify = require('node-spotify-api');
+// console.log(spotify);
+// var spotifyClient = spotify(accessKeys.spotifyKeys);
+var spotifyKeys = new spotify({
+	id: '1e6fbe5d3ba14b7b9f5665b2ee8ef2bc',
+	secret: '6626b709709645ac8a527980c7510284'
+});
 
 //OMDB GLOBAL VARIABLES
 var movie = "";
@@ -29,9 +35,9 @@ switch (pullRequest) {
 	case "my-tweets":	
 		getTweet();
 		break;
-	// case "spotify-this-song":
-	// 	getSpotify();
-	// 	break;
+	case "spotify-this-song":
+		getSpotify();
+		break;
 }//Switch closing brace
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
@@ -71,14 +77,14 @@ function getMovie() {
 // var botPostCount = 0;
 // for (var i = 1; i < 18; i++) {
 // 	var botPostCount = i;		
-// 	client.post('statuses/update', {status: 'My tweet bot # ' + botPostCount}, function(error, tweet, response) {
+// 	twitterClient.post('statuses/update', {status: 'My tweet bot # ' + botPostCount}, function(error, tweet, response) {
 // 		console.log(tweet[i].text);
 // 	});
 // }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getTweet() {
-	client.get('statuses/user_timeline', function(error, tweets, response) {
+	twitterClient.get('statuses/user_timeline', function(error, tweets, response) {
 		if(!error) {
 			// console.log(tweets);
 			for (var i = 0; i < 20; i++) {	
@@ -90,9 +96,9 @@ function getTweet() {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getSpotify() {
-	http.createServer(function(request, response) {
-		response.writeHead(200, {"Content-Type": "text/plain"});
-		response.write("Hello World");
-		response.end();
-
+	spotifyKeys.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+		if (err) {
+		return console.log('Error occurred: ' + err);
+		}
 	});
+}
