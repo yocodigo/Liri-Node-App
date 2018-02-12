@@ -12,23 +12,18 @@ var twitterClient = new twitter(accessKeys.twitterKeys);
 //SPOTIFY GLOBAL VARIABLES
 var http = require("http");
 var spotify = require('node-spotify-api');
-// var spotifyClient = spotify(accessKeys.spotifyKeys);
-var spotifyKeys = new spotify({
-	id: '1e6fbe5d3ba14b7b9f5665b2ee8ef2bc',
-	secret: '6626b709709645ac8a527980c7510284'
-});
+var spotifyClient = spotify(accessKeys.spotifyKeys);
 
 //OMDB GLOBAL VARIABLES
-var movie = "";
+var title = "";
 var movieArray = [];
 
 //TERMINAL GLOBAL VARIABLES
 var nodeArray = process.argv;
-var pullRequest = process.argv[2];
+var requestType = nodeArray[2];
 
-switch (pullRequest) {
-	
-	case "movie-this": 
+switch (requestType) {
+	case "title-this": 
 		getMovie();
 		break;
 	case "my-tweets":	
@@ -40,15 +35,14 @@ switch (pullRequest) {
 }//Switch closing brace
 
 function getTitle() {
+
 	for (var i = 3; i < nodeArray.length; i++) {
 
-				var titleSelection = nodeArray[i];
-				titleArray.push(movieSelection);
-				var title = movieArray.toString();
-			}	
+			var titleSelection = nodeArray[i];
+			titleArray.push(titleSelection);
+			var title = titleArray.toString();
+		}	
 }
-
-
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 function getMovie() {	
@@ -56,10 +50,17 @@ function getMovie() {
     	var title = "Mr. Nobody";
     }
     else {
+
     	getTitle();
+  //   	for (var i = 3; i < nodeArray.length; i++) {
+
+		// 	var movieSelection = nodeArray[i];
+		// 	movieArray.push(movieSelection);
+		// 	var title = movieArray.toString();
+		// }	
 	}
 
-	// Then run a request to the OMDB API with the movie specified
+	// Then run a request to the OMDB API with the title specified
 	request("http://www.omdbapi.com/?t=" + title + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 
 	    // If the request is successful (i.e. if the response status code is 200)
@@ -87,7 +88,6 @@ function getMovie() {
 // }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//console logs the last 20 tweets on a newline
 function getTweet() {
 	twitterClient.get('statuses/user_timeline', function(error, tweets, response) {
 		if(!error) {
@@ -102,21 +102,10 @@ function getTweet() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 function getSpotify() {
 	
-	// spotifyKeys.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
-	// 	if (err) {
-	// 	return console.log('Error occurred: ' + err);
-	// 	}
-	// 	console.log(data.tracks.items[0]);
-	// });
-
-	spotifyKeys
-	  .request('https://api.spotify.com/v1/tracks/7yCPwWs66K8Ba5lFuU2bcx')
-	  .then(function(data.album) {
-	    console.log(data); 
-	    console.log()
-	  })
-	  .catch(function(err) {
-	    console.error('Error occurred: ' + err); 
-  	  });
+	// spotifyClient.search({ type: 'track', query: 'All the Small Things' }, function(err, data) {
+	spotifyClient.search({ type: 'track', query: title }, function(err, data) {	
+		if (err) {
+		return console.log('Error occurred: ' + err);
+		}
 
 }
