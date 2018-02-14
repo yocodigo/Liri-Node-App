@@ -22,6 +22,7 @@ var titleArray = [];
 var nodeArray = process.argv;
 var requestType = nodeArray[2];
 
+getRandom();
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 switch (requestType) {
@@ -33,10 +34,10 @@ switch (requestType) {
 		break;
 	case "spotify-this-song":
 		// getTitle();
-		getSpotify(word)
+		getSpotify(song);
 		break;
 	case "do-what-it-says":
-
+		getRandom();
 		break;
 }//Switch closing brace
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
@@ -111,18 +112,72 @@ function getTweet() {
 	});
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function getSpotify(input) {
-	
-	spotifyClient.search({ type: 'track', query: input }, function(err, data) {	
+function getSpotify(song) {
+	if (nodeArray.length === 3) {
 		
-		if (err) {
-			return console.log('Error occurred: ' + err);
-		}
+		var song = "The+Sign";
+
+		spotifyClient.search({ type: 'track', query: song, limit: 5 }, function(err, data) {	
 		
-		console.log("Artist Name: " + data.tracks.items[0].album.artists[0].name);
-		console.log("Track Title: " + data.tracks.items[0].name);
-		console.log("Preview Track: " + data.tracks.items[0].preview_url);
-		console.log("Album Title: " + data.tracks.items[0].album.name);
+			if (err) {
+				return console.log('Error occurred: ' + err);
+			}
+			
+			console.log("Artist: " + data.tracks.items[5].artists[0].name);
+			console.log("Track Title: " + data.tracks.items[5].name);
+			console.log("Preview Track: " + data.tracks.items[5].preview_url);
+			console.log("Album Title: " + data.tracks.items[5].album.name);
+
+		});
+
+	}
+	else {
+
+		var getTitle;
+			for (var i = 3; i < nodeArray.length; i++) {
+				var titleSelection = nodeArray[i];
+				titleArray.push(titleSelection);
+				getTitle = titleArray.toString();
+			}
+				getTitle.replace(",", " ");
+
+		var song = getTitle;
+
+		spotifyClient.search({ type: 'track', query: song, limit: 5 }, function(err, data) {	
+			
+			if (err) {
+				return console.log('Error occurred: ' + err);
+			}
+			
+			console.log("Artist Name: " + data.tracks.items[0].album.artists[0].name);
+			console.log("Track Title: " + data.tracks.items[0].name);
+			console.log("Preview Track: " + data.tracks.items[0].preview_url);
+			console.log("Album Title: " + data.tracks.items[0].album.name);
+
+		});
+	}	
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function getRandom() {
+	fs.readFile("random.txt", "utf8", function(error, data) {
+
+	    
+	    if (error) {
+	        return console.log(error);
+	    }
+
+	    // We will then print the contents of data
+	    // console.log(data);
+
+	    // Then split it by commas (to make it more readable)
+	    var dataArr = data.split(",");
+
+	    // We will then re-display the content as an array for later use.
+	    // console.log(dataArr);
+	    return requestType = dataArr[0]
 
 	});
 }
+
+	
