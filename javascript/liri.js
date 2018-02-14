@@ -13,7 +13,6 @@ var twitterClient = new twitter(accessKeys.twitterKeys);
 var http = require("http");
 var spotify = require('node-spotify-api');
 var spotifyClient = new spotify(accessKeys.spotifyKeys);
-var song = "The+Sign";
 
 //OMDB GLOBAL VARIABLES
 var title = "";
@@ -23,18 +22,17 @@ var titleArray = [];
 var nodeArray = process.argv;
 var requestType = nodeArray[2];
 
-getRandom();
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
 switch (requestType) {
 	case "movie-this": 
-		getMovie();
+		var movie = "Mr. Right";
+		getMovie(movie);
 		break;
 	case "my-tweets":	
 		getTweet();
 		break;
 	case "spotify-this-song":
-		// getTitle();
+		var song = "The Sign";
 		getSpotify(song);
 		break;
 	case "do-what-it-says":
@@ -42,13 +40,13 @@ switch (requestType) {
 		break;
 }//Switch closing brace
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-function getMovie() {	
+function getMovie(defaultMovie) {	
 	console.log(nodeArray.length);
 	if (nodeArray.length === 3) {
 
-		var movie = "Mr.+Right";
+		// var movie = "Mr.+Right";
 		// Then run a request to the OMDB API with the title specified
-		request("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
+		request("http://www.omdbapi.com/?t=" + defaultMovie + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 	
 		    // If the request is successful (i.e. if the response status code is 200)
 		    if (!error && response.statusCode === 200) {
@@ -113,21 +111,31 @@ function getTweet() {
 	});
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function getSpotify(song) {
+function getSpotify(defaultSong) {
 	if (nodeArray.length === 3) {
-		
-		// var song = "The+Sign";
 
-		spotifyClient.search({ type: 'track', query: song, limit: 5 }, function(err, data) {	
-		
+		spotifyClient.search({ type: 'track', query: defaultSong, limit: 10 }, function(err, data) {	
+			// console.log(nopick);
+			console.log("---------------------------");
+			console.log("---------------------------");
+			console.log("---------------------------");
+			
 			if (err) {
 				return console.log('Error occurred: ' + err);
 			}
-			
-			console.log("Artist: " + data.tracks.items[5].artists[0].name);
-			console.log("Track Title: " + data.tracks.items[5].name);
-			console.log("Preview Track: " + data.tracks.items[5].preview_url);
-			console.log("Album Title: " + data.tracks.items[5].album.name);
+			if (song === "The Sign") {
+				// console.log(data.tracks.items[5]);
+				console.log("Artist: " + data.tracks.items[5].artists[0].name);
+				console.log("Track Title: " + data.tracks.items[5].name);
+				console.log("Preview Track: " + data.tracks.items[5].preview_url);
+				console.log("Album Title: " + data.tracks.items[5].album.name);
+			}
+			else {
+				console.log("Artist: " + data.tracks.items[0].artists[0].name);
+				console.log("Track Title: " + data.tracks.items[0].name);
+				console.log("Preview Track: " + data.tracks.items[0].preview_url);
+				console.log("Album Title: " + data.tracks.items[0].album.name);	
+			}
 
 		});
 
@@ -142,9 +150,9 @@ function getSpotify(song) {
 			}
 				getTitle.replace(",", " ");
 
-		var song = getTitle;
+		var songSelection = getTitle;
 
-		spotifyClient.search({ type: 'track', query: song, limit: 5 }, function(err, data) {	
+		spotifyClient.search({ type: 'track', query: songSelection, limit: 5 }, function(err, data) {	
 			
 			if (err) {
 				return console.log('Error occurred: ' + err);
@@ -168,19 +176,17 @@ function getRandom() {
 	        return console.log(error);
 	    }
 
-	    // We will then print the contents of data
-	    // console.log(data);
-
 	    // Then split it by commas (to make it more readable)
 	    var dataArr = data.split(",");
 
-	    // We will then re-display the content as an array for later use.
-	    // console.log(dataArr);
 	    if (dataArr[0] === "spotify-this-song") {
 	    	var song = dataArr[1]
 	    	getSpotify(song);
 	    }
-	    return requestType = dataArr[0]
+	    else if (dataArr[0] === "movie-this") {
+	    	var movie = dataArr[1]
+	    	getMovie(movie);
+	    }
 
 	});
 }
