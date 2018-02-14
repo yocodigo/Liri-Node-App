@@ -13,6 +13,7 @@ var twitterClient = new twitter(accessKeys.twitterKeys);
 var http = require("http");
 var spotify = require('node-spotify-api');
 var spotifyClient = new spotify(accessKeys.spotifyKeys);
+var song = "The+Sign";
 
 //OMDB GLOBAL VARIABLES
 var title = "";
@@ -115,7 +116,7 @@ function getTweet() {
 function getSpotify(song) {
 	if (nodeArray.length === 3) {
 		
-		var song = "The+Sign";
+		// var song = "The+Sign";
 
 		spotifyClient.search({ type: 'track', query: song, limit: 5 }, function(err, data) {	
 		
@@ -175,6 +176,10 @@ function getRandom() {
 
 	    // We will then re-display the content as an array for later use.
 	    // console.log(dataArr);
+	    if (dataArr[0] === "spotify-this-song") {
+	    	var song = dataArr[1]
+	    	getSpotify(song);
+	    }
 	    return requestType = dataArr[0]
 
 	});
