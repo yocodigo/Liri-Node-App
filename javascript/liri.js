@@ -29,20 +29,16 @@ switch (requestType) {
 	case "movie-this": 
 		var movie = "Mr. Right";
 		getMovie(movie);
-		// outputText();
 		break;
 	case "my-tweets":	
 		getTweet();
-		// outputText();
 		break;
 	case "spotify-this-song":
 		var song = "The Sign";
 		getSpotify(song);
-		// outputText();
 		break;
 	case "do-what-it-says":
 		getRandom();
-		// outputText();
 		break;
 }//Switch closing brace
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -69,8 +65,7 @@ function getMovie(defaultMovie) {
 			titleArray.push(titleSelection);
 			getTitle = titleArray.toString();
 		}
-			getTitle.replace(",", " ");
-
+		getTitle.replace(",", " ");
 		var movie = getTitle;
 
 		//Insert the name of the movie the user entered into the URL request
