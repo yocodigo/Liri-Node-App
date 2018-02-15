@@ -47,7 +47,7 @@ switch (requestType) {
 }//Switch closing brace
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Make an API call to OMDB
-function getMovie(defaultMovie, movie) {	
+function getMovie(defaultMovie) {	
 	console.log(nodeArray.length);
 	if (nodeArray.length === 3) {
 
@@ -193,21 +193,5 @@ function getRandom() {
 	    	getMovie(movie);
 	    }
 
-	});
-}
-
-function outputText(movie) {
-	var log ="log.txt";
-	var movie = getMovie(movie);
-	// fs.writeFile(log, nodeArray, function(err){
-	//   if(err)
-	//     console.error(err);
-	//     console.log('Written!');
-	// });
-
-	fs.appendFile(log, nodeArray[2] + " " + nodeArray[3] + '\n',function(err){
-	  if(err)
-	    console.error(err);
-	    console.log('Appended!');
 	});
 }
