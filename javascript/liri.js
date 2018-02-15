@@ -29,41 +29,35 @@ switch (requestType) {
 	case "movie-this": 
 		var movie = "Mr. Right";
 		getMovie(movie);
-		outputText();
+		// outputText();
 		break;
 	case "my-tweets":	
 		getTweet();
-		outputText();
+		// outputText();
 		break;
 	case "spotify-this-song":
 		var song = "The Sign";
 		getSpotify(song);
-		outputText();
+		// outputText();
 		break;
 	case "do-what-it-says":
 		getRandom();
-		outputText();
+		// outputText();
 		break;
 }//Switch closing brace
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Make an API call to OMDB
 function getMovie(defaultMovie) {	
-	console.log(nodeArray.length);
 	if (nodeArray.length === 3) {
-
 		//If the user didn't enter a movie, insert the default movie in the URL request
 		request("http://www.omdbapi.com/?t=" + defaultMovie + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 	
 		    // If the request is successful (i.e. if the response status code is 200)
 		    if (!error && response.statusCode === 200) {
-		        console.log(JSON.parse(body).Title);
-		        console.log("Year of release: " + JSON.parse(body).Year);
-		        console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-		        console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
-		        console.log("Produced in: " + JSON.parse(body).Country);
-		        console.log("Language: " + JSON.parse(body).Language);
-		        console.log("Plot: " + JSON.parse(body).Plot);
-		        console.log("Actors: " + JSON.parse(body).Actors);
+		        console.log("Movie title: " + JSON.parse(body).Title + "\n" + "Year of release: " + JSON.parse(body).Year +
+		        	"\n" + "IMDB Rating: " + JSON.parse(body).imdbRating + "\n" + "Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value + "\n" +
+		        	"Produced in: " + JSON.parse(body).Country + "\n" + "Language: " + JSON.parse(body).Language + "\n" + 
+		        	"Plot: " + JSON.parse(body).Plot + "\n" + JSON.parse(body).Actors);
 			}//if statement closing brace
 		});
 	}	
@@ -83,14 +77,10 @@ function getMovie(defaultMovie) {
 		request("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 	
 		    if (!error && response.statusCode === 200) {
-		        console.log("Movie title: " + JSON.parse(body).Title);
-		        console.log("Year of release: " + JSON.parse(body).Year);
-		        console.log("IMDB Rating: " + JSON.parse(body).imdbRating);
-		        console.log("Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value);
-		        console.log("Produced in: " + JSON.parse(body).Country);
-		        console.log("Language: " + JSON.parse(body).Language);
-		        console.log("Plot: " + JSON.parse(body).Plot);
-		        console.log("Actors: " + JSON.parse(body).Actors);
+		        console.log("Movie title: " + JSON.parse(body).Title + "\n" + "Year of release: " + JSON.parse(body).Year +
+		        	"\n" + "IMDB Rating: " + JSON.parse(body).imdbRating + "\n" + "Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value + "\n" +
+		        	"Produced in: " + JSON.parse(body).Country + "\n" + "Language: " + JSON.parse(body).Language + "\n" + 
+		        	"Plot: " + JSON.parse(body).Plot + "\n" + JSON.parse(body).Actors);
 			}//if statement closing brace
 		});
 	}			
@@ -122,27 +112,18 @@ function getTweet() {
 function getSpotify(defaultSong) {
 	if (nodeArray.length === 3) {
 
-		spotifyClient.search({ type: 'track', query: defaultSong, limit: 10 }, function(err, data) {	
-			
-			console.log("---------------------------");
-			console.log("---------------------------");
-			console.log("---------------------------");
+		spotifyClient.search({ type: 'track', query: defaultSong, limit: 10 }, function(err, data) {
 			
 			if (err) {
 				return console.log('Error occurred: ' + err);
 			}
 			if (song === "The Sign") {
-			
-				console.log("Artist: " + data.tracks.items[5].artists[0].name);
-				console.log("Track Title: " + data.tracks.items[5].name);
-				console.log("Preview Track: " + data.tracks.items[5].preview_url);
-				console.log("Album Title: " + data.tracks.items[5].album.name);
+				console.log("Artist: " + data.tracks.items[5].artists[0].name + "\n" + "Track Title: " + data.tracks.items[5].name + 
+					"\n" + "Preview Track: " + data.tracks.items[5].preview_url + "\n" + "Album Title: " + data.tracks.items[5].album.name);
 			}
 			else {
-				console.log("Artist: " + data.tracks.items[0].artists[0].name);
-				console.log("Track Title: " + data.tracks.items[0].name);
-				console.log("Preview Track: " + data.tracks.items[0].preview_url);
-				console.log("Album Title: " + data.tracks.items[0].album.name);	
+				console.log("Artist: " + data.tracks.items[0].artists[0].name + "\n" + "Track Title: " + data.tracks.items[0].name + 
+					"\n" + "Preview Track: " + data.tracks.items[0].preview_url + "\n" + "Album Title: " + data.tracks.items[0].album.name);
 			}
 		});
 	}
@@ -163,12 +144,8 @@ function getSpotify(defaultSong) {
 			if (err) {
 				return console.log('Error occurred: ' + err);
 			}
-			
-			console.log("Artist Name: " + data.tracks.items[0].album.artists[0].name);
-			console.log("Track Title: " + data.tracks.items[0].name);
-			console.log("Preview Track: " + data.tracks.items[0].preview_url);
-			console.log("Album Title: " + data.tracks.items[0].album.name);
-
+				console.log("Artist Name: " + data.tracks.items[0].album.artists[0].name + "\n" + "Track Title: " + data.tracks.items[0].name +
+				"\n" + "Preview Track: " + data.tracks.items[0].preview_url + "\n" + "Album Title: " + data.tracks.items[0].album.name);
 		});
 	}	
 }
