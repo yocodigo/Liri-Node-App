@@ -47,7 +47,6 @@ function getMovie(defaultMovie) {
 	if (nodeArray.length === 3) {
 		//If the user didn't enter a movie, insert the default movie in the URL request
 		request("http://www.omdbapi.com/?t=" + defaultMovie + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
-	
 		    // If the request is successful (i.e. if the response status code is 200)
 		    if (!error && response.statusCode === 200) {
 		        console.log("Movie title: " + JSON.parse(body).Title + "\n" + "Year of release: " + JSON.parse(body).Year +
@@ -67,10 +66,8 @@ function getMovie(defaultMovie) {
 		}
 		getTitle.replace(",", " ");
 		var movie = getTitle;
-
 		//Insert the name of the movie the user entered into the URL request
 		request("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
-	
 		    if (!error && response.statusCode === 200) {
 		        console.log("Movie title: " + JSON.parse(body).Title + "\n" + "Year of release: " + JSON.parse(body).Year +
 		        	"\n" + "IMDB Rating: " + JSON.parse(body).imdbRating + "\n" + "Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value + "\n" +
@@ -89,13 +86,11 @@ function getMovie(defaultMovie) {
 // 		console.log(tweet[i].text);
 // 	});
 // }
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Make an API call to Twitter and return the last 20 tweets
 function getTweet() {
 	twitterClient.get('statuses/user_timeline', function(error, tweets, response) {
 		if(!error) {
-			
 			for (var i = 0; i < 20; i++) {	
 				console.log(tweets[i].text);
 			}
@@ -106,9 +101,7 @@ function getTweet() {
 //If the user enters the spotify-this-song operator, the switch will run this function
 function getSpotify(defaultSong) {
 	if (nodeArray.length === 3) {
-
-		spotifyClient.search({ type: 'track', query: defaultSong, limit: 10 }, function(err, data) {
-			
+		spotifyClient.search({ type: 'track', query: defaultSong, limit: 10 }, function(err, data) {		
 			if (err) {
 				return console.log('Error occurred: ' + err);
 			}
@@ -123,19 +116,16 @@ function getSpotify(defaultSong) {
 		});
 	}
 	else {
-
 		var getTitle;
-			for (var i = 3; i < nodeArray.length; i++) {
-				var titleSelection = nodeArray[i];
-				titleArray.push(titleSelection);
-				getTitle = titleArray.toString();
+		for (var i = 3; i < nodeArray.length; i++) {
+			var titleSelection = nodeArray[i];
+			titleArray.push(titleSelection);
+			getTitle = titleArray.toString();
 			}
-				getTitle.replace(",", " ");
-
+		getTitle.replace(",", " ");
 		var songSelection = getTitle;
 
-		spotifyClient.search({ type: 'track', query: songSelection, limit: 5 }, function(err, data) {	
-			
+		spotifyClient.search({ type: 'track', query: songSelection, limit: 5 }, function(err, data) {		
 			if (err) {
 				return console.log('Error occurred: ' + err);
 			}
@@ -148,14 +138,11 @@ function getSpotify(defaultSong) {
 //If the user enters the do-what-it-says operator, it will run this function.
 function getRandom() {
 	fs.readFile("random.txt", "utf8", function(error, data) {
-
 	    if (error) {
 	        return console.log(error);
 	    }
-
 	    // Then split it by commas (to make it more readable)
 	    var dataArr = data.split(",");
-
 	    if (dataArr[0] === "spotify-this-song") {
 	    	var song = dataArr[1]
 	    	getSpotify(song);
@@ -164,6 +151,5 @@ function getRandom() {
 	    	var movie = dataArr[1]
 	    	getMovie(movie);
 	    }
-
 	});
 }
