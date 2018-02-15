@@ -6,6 +6,7 @@ var fs = require("fs");
 
 //TWITTER GLOBAL VARIABLES
 var twitter = require('twitter');
+
 var accessKeys = require("./keys.js");
 var twitterClient = new twitter(accessKeys.twitterKeys);
 
@@ -22,30 +23,35 @@ var titleArray = [];
 var nodeArray = process.argv;
 var requestType = nodeArray[2];
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//This will run a function depending on what the switch case enters in argv[2]	
 switch (requestType) {
 	case "movie-this": 
 		var movie = "Mr. Right";
 		getMovie(movie);
+		outputText();
 		break;
 	case "my-tweets":	
 		getTweet();
+		outputText();
 		break;
 	case "spotify-this-song":
 		var song = "The Sign";
 		getSpotify(song);
+		outputText();
 		break;
 	case "do-what-it-says":
 		getRandom();
+		outputText();
 		break;
 }//Switch closing brace
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////	
-function getMovie(defaultMovie) {	
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Make an API call to OMDB
+function getMovie(defaultMovie, movie) {	
 	console.log(nodeArray.length);
 	if (nodeArray.length === 3) {
 
-		// var movie = "Mr.+Right";
-		// Then run a request to the OMDB API with the title specified
+		//If the user didn't enter a movie, insert the default movie in the URL request
 		request("http://www.omdbapi.com/?t=" + defaultMovie + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 	
 		    // If the request is successful (i.e. if the response status code is 200)
@@ -63,6 +69,7 @@ function getMovie(defaultMovie) {
 	}	
 	else {
 		var getTitle;
+		//Go through the array from 3rd argument on to get the full movie title name
 		for (var i = 3; i < nodeArray.length; i++) {
 			var titleSelection = nodeArray[i];
 			titleArray.push(titleSelection);
@@ -71,7 +78,8 @@ function getMovie(defaultMovie) {
 			getTitle.replace(",", " ");
 
 		var movie = getTitle;
-		// Then run a request to the OMDB API with the title specified
+
+		//Insert the name of the movie the user entered into the URL request
 		request("http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 	
 		    if (!error && response.statusCode === 200) {
@@ -86,9 +94,7 @@ function getMovie(defaultMovie) {
 			}//if statement closing brace
 		});
 	}			
-}		
-// }//request closing bracket
-
+}
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Used initially to create 20 tweets
 // var botPostCount = 0;
@@ -100,6 +106,7 @@ function getMovie(defaultMovie) {
 // }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Make an API call to Twitter and return the last 20 tweets
 function getTweet() {
 	twitterClient.get('statuses/user_timeline', function(error, tweets, response) {
 		if(!error) {
@@ -111,11 +118,12 @@ function getTweet() {
 	});
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//If the user enters the spotify-this-song operator, the switch will run this function
 function getSpotify(defaultSong) {
 	if (nodeArray.length === 3) {
 
 		spotifyClient.search({ type: 'track', query: defaultSong, limit: 10 }, function(err, data) {	
-			// console.log(nopick);
+			
 			console.log("---------------------------");
 			console.log("---------------------------");
 			console.log("---------------------------");
@@ -124,7 +132,7 @@ function getSpotify(defaultSong) {
 				return console.log('Error occurred: ' + err);
 			}
 			if (song === "The Sign") {
-				// console.log(data.tracks.items[5]);
+			
 				console.log("Artist: " + data.tracks.items[5].artists[0].name);
 				console.log("Track Title: " + data.tracks.items[5].name);
 				console.log("Preview Track: " + data.tracks.items[5].preview_url);
@@ -136,9 +144,7 @@ function getSpotify(defaultSong) {
 				console.log("Preview Track: " + data.tracks.items[0].preview_url);
 				console.log("Album Title: " + data.tracks.items[0].album.name);	
 			}
-
 		});
-
 	}
 	else {
 
@@ -166,12 +172,11 @@ function getSpotify(defaultSong) {
 		});
 	}	
 }
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//If the user enters the do-what-it-says operator, it will run this function.
 function getRandom() {
 	fs.readFile("random.txt", "utf8", function(error, data) {
 
-	    
 	    if (error) {
 	        return console.log(error);
 	    }
@@ -191,4 +196,18 @@ function getRandom() {
 	});
 }
 
-	
+function outputText(movie) {
+	var log ="log.txt";
+	var movie = getMovie(movie);
+	// fs.writeFile(log, nodeArray, function(err){
+	//   if(err)
+	//     console.error(err);
+	//     console.log('Written!');
+	// });
+
+	fs.appendFile(log, nodeArray[2] + " " + nodeArray[3] + '\n',function(err){
+	  if(err)
+	    console.error(err);
+	    console.log('Appended!');
+	});
+}
