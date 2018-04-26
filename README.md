@@ -6,7 +6,7 @@ No longer do you have to open your browser or multiple apps to get the raw data 
 
 ## How it works
 
-### node liri.js spotify-this-song '(song name here>)'
+### node liri.js spotify-this-song (song name here)
 
 This command will show the following information about the song in your terminal/bash window
 
@@ -19,7 +19,7 @@ if no song is provided then your program will default to
 "The Sign" by Ace of Base
 
 
-### node liri.js movie-this '<movie name here>'
+### node liri.js movie-this (movie name here)
 
 This command will output the following information to your terminal/bash window:
    * Title of the movie.
