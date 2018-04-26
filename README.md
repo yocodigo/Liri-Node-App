@@ -6,7 +6,7 @@ No longer do you have to open your browser or multiple apps to get the raw data 
 
 ## How it works
 
-### node liri.js spotify-this-song '<song name here>'
+### node liri.js spotify-this-song '(song name here>)'
 
 This command will show the following information about the song in your terminal/bash window
 
