@@ -6,7 +6,7 @@ var fs = require("fs");
 
 //TWITTER GLOBAL VARIABLES
 var twitter = require('twitter');
-var accessKeys = require("./keys.js");
+var accessKeys = require("../config/keys.js");
 var twitterClient = new twitter(accessKeys.twitterKeys);
 
 //SPOTIFY GLOBAL VARIABLES
