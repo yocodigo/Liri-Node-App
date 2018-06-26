@@ -6,7 +6,6 @@ var fs = require("fs");
 
 //TWITTER GLOBAL VARIABLES
 var twitter = require('twitter');
-
 var accessKeys = require("./keys.js");
 var twitterClient = new twitter(accessKeys.twitterKeys);
 
@@ -27,17 +26,17 @@ var requestType = nodeArray[2];
 //This will run a function depending on what the switch case enters in argv[2]	
 switch (requestType) {
 	case "movie-this": 
-		var movie = "Mr. Right";
+		var movie = "Mr. Right"; // Default movie search
 		getMovie(movie);
 		break;
 	case "my-tweets":	
 		getTweet();
 		break;
 	case "spotify-this-song":
-		var song = "The Sign";
+		var song = "The Sign"; // Default song search
 		getSpotify(song);
 		break;
-	case "do-what-it-says":
+	case "do-what-it-says": 
 		getRandom();
 		break;
 }//Switch closing brace
@@ -53,7 +52,7 @@ function getMovie(defaultMovie) {
 		        	"\n" + "IMDB Rating: " + JSON.parse(body).imdbRating + "\n" + "Rotten Tomatoes Rating: " + JSON.parse(body).Ratings[1].Value + "\n" +
 		        	"Produced in: " + JSON.parse(body).Country + "\n" + "Language: " + JSON.parse(body).Language + "\n" + 
 		        	"Plot: " + JSON.parse(body).Plot + "\n" + JSON.parse(body).Actors);
-			}//if statement closing brace
+			}
 		});
 	}	
 	else {
