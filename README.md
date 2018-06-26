@@ -6,7 +6,7 @@ No longer do you have to open your browser or multiple apps to get the raw data 
 
 ## Requirements
 * A Twitter account with at least one tweet.
-  ** Twitter keys. Fill in the required fields and follow instructions here to obtain the necessary keys and tokens here:     
+   * Twitter keys. Fill in the required fields and follow instructions here to obtain the necessary keys and tokens here:     
      https://apps.twitter.com/app/new.
 * You need to have a Spotify account.
   ** You will also need to obtain an ID and secret from Spotify. You can do so by following the instructions here: 
